@@ -1,11 +1,4 @@
-import {
-  Image,
-  Text,
-  StyleSheet,
-  View,
-  Button,
-  TouchableOpacity,
-} from "react-native";
+import { Image, Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { BlurView, VibrancyView } from "@react-native-community/blur";
 import ProgressBar from "./ProgressBar";
 import { Video } from "expo-av";

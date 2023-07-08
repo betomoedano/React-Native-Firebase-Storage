@@ -2,13 +2,10 @@ import { useEffect, useState } from "react";
 import {
   View,
   TouchableOpacity,
-  Text,
-  LogBox,
   Image,
   FlatList,
+  Platform,
 } from "react-native";
-import EmptyState from "../components/EmptyState";
-import ProgressBar from "../components/ProgressBar";
 import { Uploading } from "../components/Uploading";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -16,13 +13,13 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../firebaseConfig";
 import { Video } from "expo-av";
+import { UploadingAndroid } from "../components/UploadingAndroid";
 
 export default function Home() {
   const [image, setImage] = useState("");
   const [video, setVideo] = useState("");
   const [progress, setProgress] = useState(0);
   const [files, setFiles] = useState([]);
-
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "files"), (snapshot) => {
       snapshot.docChanges().forEach((change) => {
@@ -32,7 +29,6 @@ export default function Home() {
         }
       });
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -145,7 +141,13 @@ export default function Home() {
         contentContainerStyle={{ gap: 2 }}
         columnWrapperStyle={{ gap: 2 }}
       />
-      {image && <Uploading image={image} video={video} progress={progress} />}
+      {image &&
+        (Platform.OS === "ios" ? (
+          <Uploading image={image} video={video} progress={progress} />
+        ) : (
+          // Some features of blur are not available on Android
+          <UploadingAndroid image={image} video={video} progress={progress} />
+        ))}
       <TouchableOpacity
         onPress={pickImage}
         style={{
