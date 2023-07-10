@@ -18,7 +18,7 @@ yarn install
 yarn start
 ```
 
-## if you could not run the project
+## Known issues
 
 Expo SDK and libreries are always updating their versions and deprecating others. So, you have to work to work with compatible dependencies. So, before installing the libreries run.
 
@@ -29,7 +29,7 @@ Expo SDK and libreries are always updating their versions and deprecating others
 Next you can run:
 
 ```
-    npx expo install
+    npx expo install  --fix
 ```
 
 Expo will show you what dependencies need to be updated. Install the dependencies expo suggested you. It is possible that there is cache and you have to run.
